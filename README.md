@@ -20,5 +20,5 @@ npm start
 ```
 
 ## Contributors
-- [pengpeng14][github.com/pengpeng14]
+- [pengpeng14](github.com/pengpeng14)
 - [telio-s](github.com/telio-s)
