@@ -1,0 +1,83 @@
+type User
+  @model
+  @auth(
+    rules: [
+      { allow: private, provider: userPools }
+      { allow: groups, groups: ["Admin"] }
+      {
+        allow: owner
+        ownerField: "username"
+        operations: [read, create, update, delete]
+      }
+    ]
+  ) {
+  id: ID!
+  username: String!
+  email: String!
+  lineID: String
+  displayName: String
+  statusMessage: String
+  profilePhoto: S3Object
+  coverPhoto: S3Object
+  phoneNumber: String
+  groups: [UserGroups] @connection(name: "UserGroups")
+  friends: [UserFriends] @connection(keyName: "byUser", fields: ["id"])
+  blocked: [User]
+  favourites: [User]
+}
+
+type Group @model {
+  id: ID!
+  name: String!
+  users: [UserGroups] @connection(name: "GroupUsers")
+  messages: [Message] @connection(name: "GroupUsers")
+  isDirect: Boolean!
+  announce: [Message] @connection(name: "GroupUsers")
+  files: S3Object
+}
+
+type UserGroups @model(queries: null) {
+  id: ID!
+  user: User @connection(name: "UserGroups")
+  group: Group @connection(name: "GroupUsers")
+}
+
+type UserFriends
+  @model(queries: null)
+  @key(name: "byUser", fields: ["userId", "friendId"]) {
+  id: ID!
+  userId: ID
+  friendId: ID
+  user: User @connection(fields: ["userId"])
+  friend: User @connection(fields: ["friendId"])
+  displayName: String
+}
+
+type Message
+  @model
+  @key(
+    name: "messageByDate"
+    fields: ["type", "createdAt"]
+    queryField: "messageByDate"
+  ) {
+  id: ID!
+  user: User @connection(name: "UserGroups")
+  group: Group @connection(name: "GroupUsers")
+  type: String!
+  message: String!
+  media: [String]
+  createdAt: String!
+  isBlock: Boolean!
+  hasRead: Boolean
+  isCall: Boolean
+}
+
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+}
+
+type Subscription {
+  newOnCreateMessage: Message @aws_subscribe(mutations: ["createMessage"])
+}

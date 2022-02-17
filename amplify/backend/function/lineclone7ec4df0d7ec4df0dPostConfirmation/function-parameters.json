@@ -1,0 +1,17 @@
+{
+  "trigger": true,
+  "modules": [
+    "custom"
+  ],
+  "parentResource": "lineclone7ec4df0d7ec4df0d",
+  "functionName": "lineclone7ec4df0d7ec4df0dPostConfirmation",
+  "resourceName": "lineclone7ec4df0d7ec4df0dPostConfirmation",
+  "parentStack": "auth",
+  "triggerEnvs": [],
+  "triggerDir": "C:\\Users\\Asus\\AppData\\Roaming\\npm\\node_modules\\@aws-amplify\\cli\\node_modules\\amplify-category-auth\\provider-utils\\awscloudformation\\triggers\\PostConfirmation",
+  "triggerTemplate": "PostConfirmation.json.ejs",
+  "triggerEventPath": "PostConfirmation.event.json",
+  "roleName": "lineclone7ec4df0d7ec4df0dPostConfirmation",
+  "skipEdit": true,
+  "enableCors": false
+}
